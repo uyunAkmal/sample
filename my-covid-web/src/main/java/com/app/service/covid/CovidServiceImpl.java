@@ -1,10 +1,14 @@
 package com.app.service.covid;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.error.IDNotFoundException;
 import com.app.mapper.CovidAreaDescMapper;
@@ -23,6 +27,10 @@ import fr.xebia.extras.selma.Selma;
 public class CovidServiceImpl implements CovidService {
 
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CovidServiceImpl.class);
+
+	private static final String ADD_COVID = null;
+	
+	private static final String DELETE_COVID = null;
 
 	@Autowired
 	CovidCasesRepository covidCasesRepository;
@@ -74,20 +82,79 @@ public class CovidServiceImpl implements CovidService {
 
 	}
 	
-	// TODO: Related to Practical 4 (Add)
-	@Override
-	public List<CovidCasesArea> addCovid() {
-		log.info("addCovid started");
+	public // TODO: Related to Practical 4 (Add)
+	CovidCasesDesc addCovid(@RequestParam(required = true) String desc) throws Throwable {
+		log.info("addCovid() started={}", desc);
 
-		return null;
+		CovidCasesDesc covidCasesDesc = null;
+		try {
 
+			if (desc == null || desc.equals("undefined") || desc.equals(""))  {
+				throw new NullPointerException(ADD_COVID + ", desc is null or empty");
+			}
+			List<CovidCasesAreaEntity> cases = covidCasesRepository.findAll();
+			CovidCasesAreaEntity covidCasesAreaEntity = cases.get(0);
+			CovidCasesAreaEntity covidCasesAreaEntityNew = new CovidCasesAreaEntity();
+
+			covidCasesAreaEntityNew.setArea(covidCasesAreaEntity.getArea());
+			covidCasesAreaEntityNew.setDate(new Date());
+
+			CovidCasesDescEntity covidAreaDescEntity = new CovidCasesDescEntity();
+
+			covidAreaDescEntity.setDescription(desc);
+
+			CovidCasesDescEntity savedEntity = covidCasesDescRepository.save(covidAreaDescEntity);
+
+			CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
+
+			covidCasesDesc = mapper.asResource(savedEntity);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.error("add() exception " + e.getMessage());
+			throw new Exception(e.getMessage());
+		}
+
+		return covidCasesDesc;
 	}
 
 	// TODO: Related to Practical 4 (Delete)
-	public List<CovidCasesArea> deleteCovid() {
-		log.info("deleteCovid started");
+	
+	public int deleteCovid(@RequestParam(required = true) long id) throws Exception {
+		log.info("deleteCovid() started id={}", id);
 
-		return null;
+		
+		try {
 
+			Optional<CovidCasesDescEntity> entityOptional = covidCasesDescRepository.findById(id);
+
+			log.info("Entity found == " + entityOptional.isPresent());
+
+			if (entityOptional.isPresent()) {
+				CovidCasesDescEntity covidAreaDescEntity = entityOptional.get();
+				covidCasesDescRepository.delete(covidAreaDescEntity);
+				return 1;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.error("deleteCovid() exception " + e.getMessage());
+			throw new Exception(e.getMessage());
+		}
+
+		return 0;
 	}
+
+	@Override
+	public List<CovidCasesArea> addCovid() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CovidCasesDesc deleteCovid(String desc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 }

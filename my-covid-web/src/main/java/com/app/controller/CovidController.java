@@ -18,6 +18,7 @@ import com.app.model.CovidCasesDesc;
 import com.app.repository.covid.CovidCasesDescRepository;
 import com.app.repository.covid.CovidCasesRepository;
 import com.app.service.covid.CovidService;
+import com.app.service.covid.CovidServiceImpl;
 import com.app.service.covid.api.CovidMiningAPITotalCases;
 
 import fr.xebia.extras.selma.Selma;
@@ -46,6 +47,9 @@ public class CovidController {
 
 	@Autowired
 	private CovidCasesRepository covidCasesRepository;
+	
+	@Autowired
+	private CovidServiceImpl covidServiceImpl;
 
 	@Autowired
 	private CovidCasesDescRepository covidCasesDescRepository;
@@ -173,24 +177,6 @@ public class CovidController {
 	int deleteCovid(@RequestParam(required = true) long id) throws Exception {
 		log.info("deleteCovid() started id={}", id);
 
-		try {
-
-			Optional<CovidCasesDescEntity> entityOptional = covidCasesDescRepository.findById(id);
-
-			log.info("Entity found == " + entityOptional.isPresent());
-
-			if (entityOptional.isPresent()) {
-				CovidCasesDescEntity covidAreaDescEntity = entityOptional.get();
-				covidCasesDescRepository.delete(covidAreaDescEntity);
-				return 1;
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			log.error("deleteCovid() exception " + e.getMessage());
-			throw new Exception(e.getMessage());
-		}
-
-		return 0;
+		return covidServiceImpl.deleteCovid(id);
 	}
 }

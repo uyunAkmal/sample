@@ -13,5 +13,9 @@ public interface CovidService {
 
 	List<CovidCasesDesc> getCovidDesc();
 
+	CovidCasesDesc addCovid(String desc) throws Throwable;
+	
+	CovidCasesDesc deleteCovid(String desc);
+
 
 }
