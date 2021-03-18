@@ -22,7 +22,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import fr.xebia.extras.selma.Selma;
 import lombok.extern.slf4j.Slf4j;
 
@@ -173,6 +174,25 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 		log.info("getLast5RecordsMY ends.  cases = {} ", casesPojos);
 		return casesPojos;
 	}
+	
+	@Override
+	public List<CovidCasesArea> getLast5RecordsMYWithSize(int size) throws Exception {
+		log.info("getLast5RecordsMYWithSize size={} ", size);
+
+		org.springframework.data.domain.Pageable page = PageRequest.of(0, size);
+		List<CovidCasesAreaEntity> list =
+		 covidCasesRepository.listLast5RecordsHQLWithSize(page);
+
+		// complete the code here as getLast5RecordsMY method
+		List<CovidCasesArea> casesPojos = new ArrayList<CovidCasesArea>();
+
+		if (casesPojos.size() == 0) {
+			throw new Exception("query return nothing!");
+		}
+		
+		log.info("getLast5RecordsMYWithSize ends.  cases = {} ", casesPojos);
+		return casesPojos;
+	}
 
 	@Override
 	public String getTotalfromDB() throws Exception {
@@ -208,4 +228,6 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 		log.info("getTotalfromDB ends.  totalCases = {} date={}", totalCases,date);
 		return "Total Cases " + totalCases + " (" + date + ")";
 	}
+
+
 }
