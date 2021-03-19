@@ -38,27 +38,27 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 	@Override
 	public String doMining() throws Exception {
 
-		String defaultTime = "T00:00:00Z";
+	 String defaultTime = "T00:00:00Z";
 
-		String defaultDate = "yyyy-MM-dd";
+	 String defaultDate = "yyyy-MM-dd";
 
-		Date date1DayBefore = DateTools.minusDate(1);
+	 Date date1DayBefore = DateTools.minusDate(1);
 
-		Date date3DayBefore = DateTools.minusDate(3);
+	 Date date3DayBefore = DateTools.minusDate(3);
 
-		String json = getTotalCasesMYFromAPI(defaultDate, defaultTime, date1DayBefore, date3DayBefore);
+	 String json = getTotalCasesMYFromAPI(defaultDate, defaultTime, date1DayBefore, date3DayBefore);
 
-		List<Covid19ApiModel> covid19ApiModels = convertToObjects(json);
+	 List<Covid19ApiModel> covid19ApiModels = convertToObjects(json);
 
-		updateDB(covid19ApiModels);
+	 updateDB(covid19ApiModels);
 
-		int totalCases = getCasesDifferent(covid19ApiModels);
+	 int totalCases = getCasesDifferent(covid19ApiModels);
 
-		log.info("convertToObjects Ends. Total Cases = {} ({})", totalCases, date1DayBefore.toString());
+	 log.info("convertToObjects Ends. Total Cases = {} ({})", totalCases, date1DayBefore.toString());
 
-		return "Total Cases " + totalCases + " (" + date1DayBefore.toString() + ")";
+	 return "Total Cases " + totalCases + " (" + date1DayBefore.toString() + ")";
 
-	}
+	 }
 
 	private Boolean isDuplicate(List<CovidCasesAreaEntity> covidCasesAreaEntities, Covid19ApiModel covid19ApiModel) {
 

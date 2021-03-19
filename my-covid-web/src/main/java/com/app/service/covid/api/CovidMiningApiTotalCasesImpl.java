@@ -9,21 +9,21 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.app.mapper.CovidCasesAreaMapper;
-import com.app.repository.covid.CovidCasesRepository;
 import com.app.entity.CovidCasesAreaEntity;
+import com.app.mapper.CovidCasesAreaMapper;
 import com.app.model.CovidCasesArea;
 import com.app.model.api.Covid19ApiModel;
+import com.app.repository.covid.CovidCasesRepository;
 import com.app.util.DateTools;
 import com.app.util.ResffulServices;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import fr.xebia.extras.selma.Selma;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,30 +38,6 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 	@Autowired
 	CovidCasesRepository covidCasesRepository;
 
-	@Override
-	public String doMining() throws Exception {
-
-		String defaultTime = "T00:00:00Z";
-
-		String defaultDate = "yyyy-MM-dd";
-
-		Date date1DayBefore = DateTools.minusDate(1);
-
-		Date date3DayBefore = DateTools.minusDate(3);
-
-		String json = getTotalCasesMYFromAPI(defaultDate, defaultTime, date1DayBefore, date3DayBefore);
-
-		List<Covid19ApiModel> covid19ApiModels = convertToObjects(json);
-
-		updateDB(covid19ApiModels);
-
-		int totalCases = getCasesDifferent(covid19ApiModels);
-
-		log.info("convertToObjects Ends. Total Cases = {} ({})", totalCases, date1DayBefore.toString());
-
-		return "Total Cases " + totalCases + " (" + date1DayBefore.toString() + ")";
-
-	}
 
 	private Boolean isDuplicate(List<CovidCasesAreaEntity> covidCasesAreaEntities, Covid19ApiModel covid19ApiModel) {
 
@@ -227,6 +203,12 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 		
 		log.info("getTotalfromDB ends.  totalCases = {} date={}", totalCases,date);
 		return "Total Cases " + totalCases + " (" + date + ")";
+	}
+
+	@Override
+	public String doMining() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

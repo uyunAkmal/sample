@@ -16,4 +16,5 @@ public interface CovidMiningAPITotalCases {
 
 	List<CovidCasesArea> getLast5RecordsWithParam(int size) throws Exception;
 
+
 }

@@ -7,19 +7,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.app.entity.CovidCasesAreaEntity;
+import com.app.entity.CovidCasesDescEntity;
 import com.app.error.IDNotFoundException;
 import com.app.mapper.CovidAreaDescMapper;
 import com.app.mapper.CovidCasesAreaMapper;
-import com.app.repository.covid.CovidCasesDescRepository;
-import com.app.repository.covid.CovidCasesRepository;
-import com.app.entity.CovidCasesDescEntity;
-import com.app.entity.CovidCasesAreaEntity;
 import com.app.model.CovidCasesArea;
 import com.app.model.CovidCasesBonus;
 import com.app.model.CovidCasesDesc;
+import com.app.repository.covid.CovidCasesDescRepository;
+import com.app.repository.covid.CovidCasesRepository;
 
 import fr.xebia.extras.selma.Selma;
 
@@ -31,8 +30,6 @@ public class CovidServiceImpl implements CovidService {
 
 	private static final String ADD_COVID = null;
 	
-	private static final String DELETE_COVID = null;
-
 	@Autowired
 	CovidCasesRepository covidCasesRepository;
 	
