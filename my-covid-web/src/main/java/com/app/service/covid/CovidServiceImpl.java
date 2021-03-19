@@ -18,6 +18,7 @@ import com.app.repository.covid.CovidCasesRepository;
 import com.app.entity.CovidCasesDescEntity;
 import com.app.entity.CovidCasesAreaEntity;
 import com.app.model.CovidCasesArea;
+import com.app.model.CovidCasesBonus;
 import com.app.model.CovidCasesDesc;
 
 import fr.xebia.extras.selma.Selma;
@@ -37,6 +38,9 @@ public class CovidServiceImpl implements CovidService {
 	
 	@Autowired
 	CovidCasesDescRepository covidCasesDescRepository;
+	
+	@Autowired
+	CovidBonusService covidBonusService;
 
 	@Override
 	public List<CovidCasesArea> getCovid() {
@@ -156,5 +160,10 @@ public class CovidServiceImpl implements CovidService {
 		return null;
 	}
 
+	@Override
+	public List<CovidCasesBonus> bonus() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

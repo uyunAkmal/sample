@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.entity.CovidCasesAreaEntity;
+import com.app.model.CovidCasesArea;
 import com.app.model.api.Covid19ApiModel;
 import com.app.repository.covid.CovidCasesRepository;
 import com.app.util.DateTools;
@@ -189,4 +190,23 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 		log.info("getTotalfromDB ends.  totalCases = {} date={}", totalCases,date);
 		return "Total Cases " + totalCases + " (" + date + ")";
 	}
+
+	@Override
+	public List<CovidCasesArea> getLast5RecordsMYWithSize(int size) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CovidCasesArea> getLast5RecordsMY() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CovidCasesArea> getLast5RecordsWithParam(int size) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

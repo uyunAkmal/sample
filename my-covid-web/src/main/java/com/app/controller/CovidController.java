@@ -41,6 +41,8 @@ public class CovidController {
 	private final static String GET_HELLO_API = "/covid/hello";
 
 	private final static String GET_LOG_API = "/covid/logging";
+	
+	private final static String GET_MY_BONUS = "/covid/get/bonus";
 
 	@Autowired
 	private CovidService covidService;
