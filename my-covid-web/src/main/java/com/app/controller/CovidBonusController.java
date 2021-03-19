@@ -28,6 +28,10 @@ public class CovidBonusController {
 
 		try {
 			covidCasesBonus = covidBonusService.bonus();
+			
+			for (CovidCasesBonus bonus: covidCasesBonus) {
+				log.info("bonus  -->" + bonus  + "  desc-->" + bonus.getDescription());
+			}
 			if (covidCasesBonus == null) {
 				throw new Exception("No bonus yet");
 			}
