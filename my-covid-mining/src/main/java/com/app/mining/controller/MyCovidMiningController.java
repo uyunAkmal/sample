@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.mining.service.covid.api.CovidMiningAPITotalCases;
+import com.app.repository.covid.CovidCasesRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +18,10 @@ public class MyCovidMiningController {
 	// TODO: Practical 5, move the required logic from covid-web project to here
 	
 	// CovidMiningApiTotalCasesImpl need to be fixed too. Refer to the file TODO remarks
+
+	@Autowired
+	private CovidCasesRepository covidCasesRepository;
+	
 	@Autowired
 	CovidMiningAPITotalCases covidMiningAPITotalCases;
 

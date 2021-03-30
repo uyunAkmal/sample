@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -97,7 +98,7 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 				log.info("updateDB this record. covid19ApiModel date={}" + covid19ApiModel.getDate());
 				Date date = DateTools.convertDate(covid19ApiModel.getDate(), API_DATE_FORMAT);
 
-				covidCasesAreaEntity.setDate(date);
+			//	covidCasesAreaEntity.setDate(date);
 				covidCasesRepository.save(covidCasesAreaEntity);
 			}
 

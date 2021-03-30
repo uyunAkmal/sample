@@ -16,9 +16,16 @@ public interface CovidService {
 
 	CovidCasesDesc addCovid(String desc) throws Throwable;
 	
-	CovidCasesDesc deleteCovid(String desc);
+	CovidCasesDesc deleteCovid(String desc) throws Exception;
 
 	List<CovidCasesBonus> bonus() throws Exception;
+	
+	CovidCasesDesc putCovidDesc(CovidCasesDesc covidCasesDesc)throws RuntimeException, Exception;
+
+	CovidCasesDesc postCovidDesc(CovidCasesDesc covidCasesDesc) throws Exception;
+
+	int deleteCovidSoap(String desc) throws Exception;
 
 
 }
+ 

@@ -76,7 +76,7 @@ public class CovidMiningApiTotalCasesImpl implements CovidMiningAPITotalCases {
 				log.info("updateDB this record. covid19ApiModel date={}" + covid19ApiModel.getDate());
 				Date date = DateTools.convertDate(covid19ApiModel.getDate(), API_DATE_FORMAT);
 
-				covidCasesAreaEntity.setDate(date);
+			//	covidCasesAreaEntity.setDate(date);
 				covidCasesRepository.save(covidCasesAreaEntity);
 			}
 
