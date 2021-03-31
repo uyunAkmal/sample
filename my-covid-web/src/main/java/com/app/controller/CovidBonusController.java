@@ -34,6 +34,8 @@ private final static String GET_MY_BONUS = "/covid/get/bonus";
 	private final static String POST_API_BONUS = "/covid/post/bonus";
 	
 	private final static String DELETE_COVID_SOAPUI_BONUS="/covid/deletesoap/bonus";
+	
+	private final static String FIND_DUPLICATE_DELETE_COVID = "/covid/delete/duplicate/bonus";
 
 	@Autowired
 	CovidBonusService covidBonusService;
@@ -41,8 +43,6 @@ private final static String GET_MY_BONUS = "/covid/get/bonus";
 	@Autowired
 	CovidMiningAPITotalCases covidMiningAPITotalCases;
 	
-	@Autowired
-	CovidCasesBonusRepository covidCasesBonusRepository;
 
 	// TODO: Practical Bonus Desc Final
 	// Objective: to create a set of spring and hibernate services to retrieve data from a new table call "trx_covid_cases_bonus"
@@ -139,6 +139,28 @@ private final static String GET_MY_BONUS = "/covid/get/bonus";
     public List<CovidCasesBonus>deleteCovidSoapBonus(@RequestParam(required = true) String desc)throws Exception{
 		return covidBonusService.deleteCovidBonus(desc);
 	}
+    
+ // TODO: Angular Practical 11 - Remove Duplicate values
+ 		@DeleteMapping(FIND_DUPLICATE_DELETE_COVID)
+ 		List<String> findDuplicateNdelete() throws Exception {
+ 			log.info("findDuplicateNdelete() started");
+ 			
+ 			// complete the implementation below
+ 			// ensure logic related to repo move to service implementation
+ 			List<String> e = covidBonusService.findDuplicateNdelete();
+ 			
+ 			for (String s: e) {
+ 				log.info ("Duplicate value found on Description Table--->" + s);
+ 				
+ 				covidBonusService.deleteCovidBonus(s);
+ 				
+ 				log.info ("Value Deleted--->" + s);
+ 			}
+ 			
+ 			log.info("findDuplicateNdelete() ended");
+ 			return e;
+ 		}
+ 		
 
 }
 

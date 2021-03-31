@@ -21,4 +21,7 @@ public interface CovidCasesDescRepository  extends JpaRepository<CovidCasesDescE
 	@Query("SELECT c FROM CovidCasesAreaEntity AS c order by date desc")
 	List<CovidCasesAreaEntity> listLast5RecordsHQL();
 
+	@Query("SELECT description FROM CovidCasesDescEntity")
+	List<String> findDuplicateNdelete();
+
 }

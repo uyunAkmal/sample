@@ -44,12 +44,10 @@ public class CovidController {
 	private static final String POST_API = "/covid/post";
 
 	private final static String DELETE_COVID_SOAPUI = "/covid/delete/soap";
+	
 
 	@Autowired
 	private CovidService covidService;
-
-	@Autowired
-	private CovidCasesRepository covidCasesRepository;
 
 	@Autowired
 	private CovidServiceImpl covidServiceImpl;
@@ -219,4 +217,5 @@ public class CovidController {
 		log.info("deleteCovidSoap() ended iDelete = {}" + iDelete);
 		return iDelete;
 	}
-}
+	
+	}

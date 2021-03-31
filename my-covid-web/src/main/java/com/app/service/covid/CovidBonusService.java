@@ -17,6 +17,8 @@ List<CovidCasesBonus> bonus() throws Exception;
 	CovidCasesBonus postCovidBonus(CovidCasesBonus covidCasesBonus) throws Exception;
 	
 	List<CovidCasesBonus> deleteCovidBonus(String desc) throws Exception;
+
+	List<String> findDuplicateNdelete() throws Exception;
 	
 
 
