@@ -10,20 +10,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ResffulServices {
+	private ResffulServices() {
+		log.info("Static Class not for instantiation");
+	}
 
-	public static String GetServices(String URL) throws IOException{
-
+	public static String getServices(String vendorUrl) throws IOException {
 		URL url;
 		StringBuilder textBuilder = new StringBuilder();
-
-		url = new URL(URL);
-
+		url = new URL(vendorUrl);
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-		try {
-			InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
+		try (InputStream in = new BufferedInputStream(urlConnection.getInputStream());) {
 			try (Reader reader = new BufferedReader(
 					new InputStreamReader(in, Charset.forName(StandardCharsets.UTF_8.name())))) {
 				int c = 0;
@@ -31,15 +31,11 @@ public class ResffulServices {
 					textBuilder.append((char) c);
 				}
 			}
-		} 
-		catch(Exception e) {
+		} catch (Exception e) {
 			throw new IOException(e);
-		}
-		finally {
+		} finally {
 			urlConnection.disconnect();
 		}
-
 		return textBuilder.toString();
-
 	}
 }

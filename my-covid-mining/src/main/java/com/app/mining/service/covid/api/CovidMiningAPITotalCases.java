@@ -1,20 +1,11 @@
 package com.app.mining.service.covid.api;
 
-import java.util.List;
-
-import com.app.model.CovidCasesArea;
+import com.app.error.GeneralException;
 
 public interface CovidMiningAPITotalCases {
 
-	String doMining() throws Exception;
+	String doMining() throws GeneralException;
 
-	String getTotalfromDB() throws Exception;
-
-	List<CovidCasesArea> getLast5RecordsMYWithSize(int size);
-
-	List<CovidCasesArea> getLast5RecordsMY();
-
-	List<CovidCasesArea> getLast5RecordsWithParam(int size) throws Exception;
-
+	String getTotalfromDB() throws GeneralException;
 
 }

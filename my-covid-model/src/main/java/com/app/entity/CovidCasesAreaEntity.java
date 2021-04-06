@@ -1,6 +1,7 @@
 package com.app.entity;
 
 import java.time.LocalDate;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,21 +20,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CovidCasesAreaEntity {
-
 	@Id
 	@GeneratedValue
 	private Long id;
-
 	@OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_areaId", referencedColumnName = "id")
 	private AreaEntity area;
-
 	@Column(nullable = false)
 	private LocalDate date;
-	
+
 	@Column(nullable = false)
 	private int cases;
-	
-	
-	
+
 }

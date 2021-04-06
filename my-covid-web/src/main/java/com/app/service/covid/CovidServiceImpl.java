@@ -26,8 +26,6 @@ public class CovidServiceImpl implements CovidService {
 
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(CovidServiceImpl.class);
 
-	private static final String ADD_COVID = null;
-
 	@Autowired
 	CovidCasesRepository covidCasesRepository;
 
@@ -39,11 +37,10 @@ public class CovidServiceImpl implements CovidService {
 		log.info("getCovid started");
 		CovidCasesAreaMapper mapper = Selma.builder(CovidCasesAreaMapper.class).build();
 		List<CovidCasesAreaEntity> covidCaseEntities = covidCasesRepository.findAll();
-		List<CovidCasesArea> covidCasesAreaList = new ArrayList<CovidCasesArea>();
+		List<CovidCasesArea> covidCasesAreaList = new ArrayList<>();
 		if (covidCaseEntities == null) {
 			throw new IDNotFoundException(0L);
 		} else {
-
 			for (CovidCasesAreaEntity covidCasesEntity : covidCaseEntities) {
 				CovidCasesArea covidCasesArea = mapper.asResource(covidCasesEntity);
 				covidCasesAreaList.add(covidCasesArea);
@@ -51,9 +48,7 @@ public class CovidServiceImpl implements CovidService {
 			}
 			log.info(" getCovid() return Size={}", covidCaseEntities.size());
 		}
-
 		return covidCasesAreaList;
-
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class CovidServiceImpl implements CovidService {
 		log.info("getCovidDesc started");
 		CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
 		List<CovidCasesDescEntity> covidCaseDescEntities = covidCasesDescRepository.findAll();
-		List<CovidCasesDesc> covidCasesDescList = new ArrayList<CovidCasesDesc>();
+		List<CovidCasesDesc> covidCasesDescList = new ArrayList<>();
 		if (covidCaseDescEntities == null) {
 			throw new IDNotFoundException(0L);
 		} else {
@@ -78,136 +73,98 @@ public class CovidServiceImpl implements CovidService {
 
 	}
 
-	public // TODO: Related to Practical 4 (Add)
-	CovidCasesDesc addCovid(@RequestParam(required = true) String desc) throws Throwable {
+	public CovidCasesDesc addCovid(@RequestParam(required = true) String desc) {
 		log.info("addCovid() started={}", desc);
 
 		CovidCasesDesc covidCasesDesc = null;
-		try {
 
-			if (desc == null || desc.equals("undefined") || desc.equals("")) {
-				throw new NullPointerException(ADD_COVID + ", desc is null or empty");
-			}
+		CovidCasesDescEntity covidAreaDescEntity = new CovidCasesDescEntity();
 
-			CovidCasesDescEntity covidAreaDescEntity = new CovidCasesDescEntity();
+		covidAreaDescEntity.setDescription(desc);
 
-			covidAreaDescEntity.setDescription(desc);
+		CovidCasesDescEntity savedEntity = covidCasesDescRepository.save(covidAreaDescEntity);
 
-			CovidCasesDescEntity savedEntity = covidCasesDescRepository.save(covidAreaDescEntity);
+		CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
 
-			CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
-
-			covidCasesDesc = mapper.asResource(savedEntity);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			log.error("add() exception " + e.getMessage());
-			throw new Exception(e.getMessage());
-		}
+		covidCasesDesc = mapper.asResource(savedEntity);
 
 		return covidCasesDesc;
-	}
 
-	// TODO: Related to Practical 4 (Delete)
-
-	public int deleteCovid(@RequestParam(required = true) long id) throws Exception {
-		log.info("deleteCovid() started id={}", id);
-
-		try {
-
-			Optional<CovidCasesDescEntity> entityOptional = covidCasesDescRepository.findById(id);
-
-			log.info("Entity found == " + entityOptional.isPresent());
-
-			if (entityOptional.isPresent()) {
-				CovidCasesDescEntity covidAreaDescEntity = entityOptional.get();
-				covidCasesDescRepository.delete(covidAreaDescEntity);
-				return 1;
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			log.error("deleteCovid() exception " + e.getMessage());
-			throw new Exception(e.getMessage());
-		}
-
-		return 0;
 	}
 
 	@Override
-	public List<CovidCasesArea> addCovid() {
-		// TODO Auto-generated method stub
-		return null;
+	public int deleteCovid(long id) {
+		Optional<CovidCasesDescEntity> entityOptional = covidCasesDescRepository.findById(id);
+		log.info("Entity found == {}", entityOptional.isPresent());
+		if (entityOptional.isPresent()) {
+			CovidCasesDescEntity covidAreaDescEntity = entityOptional.get();
+			covidCasesDescRepository.delete(covidAreaDescEntity);
+			return 1;
+		} else
+			return 0;
 	}
 
-	@Override
-	public CovidCasesDesc deleteCovid(String desc) throws Exception {
-		// TODO Auto-generated method stub
-		// log.info("deleteCovid() started , covidCasesDesc={}", covidCasesDesc);
+	public CovidCasesDesc deleteCovid(String desc) throws com.app.error.ControllerException {
 
 		// return should be the Saved CovidCasesDesc with values
 		return null;
 	}
 
 	@Override
-	public List<CovidCasesBonus> bonus() throws Exception {
-		// TODO Auto-generated method stub
+	public List<CovidCasesBonus> bonus() throws com.app.error.ControllerException {
+
 		return null;
 	}
 
 	@Override
-	public CovidCasesDesc putCovidDesc(CovidCasesDesc covidCasesDesc) throws Exception {
+	public CovidCasesDesc putCovidDesc(CovidCasesDesc covidCasesDesc) {
 		log.info("putCovid() started={}, covidCasesDesc={}", covidCasesDesc);
 
 		CovidCasesDesc covidCasesdescSaved = null;
-		try {
-			CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
 
-			CovidCasesDescEntity covidAreaDescEntity = mapper.asEntity(covidCasesDesc);
+		CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
 
-			CovidCasesDescEntity savedEntity = covidCasesDescRepository.save(covidAreaDescEntity);
+		CovidCasesDescEntity covidAreaDescEntity = mapper.asEntity(covidCasesDesc);
 
-			covidCasesdescSaved = mapper.asResource(savedEntity);
-			log.info("putCovid() ends, covidCasesDescSaved={}", covidCasesDesc);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			log.error(" findAll() exception " + e.getMessage());
-			throw new Exception(e.getMessage());
-		}
+		CovidCasesDescEntity savedEntity = covidCasesDescRepository.save(covidAreaDescEntity);
+
+		covidCasesdescSaved = mapper.asResource(savedEntity);
+		log.info("putCovid() ends, covidCasesDescSaved={}", covidCasesDesc);
 
 		return covidCasesdescSaved;
 	}
 
 	@Override
 
-	public CovidCasesDesc postCovidDesc(CovidCasesDesc covidCasesDesc) throws Exception {
+	public CovidCasesDesc postCovidDesc(CovidCasesDesc covidCasesDesc) {
 		log.info("postCovidDesc() started={}, covidCasesDesc={}", covidCasesDesc);
 
 		CovidCasesDesc covidCasesdescSaved = null;
-		try {
-			CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
 
-			CovidCasesDescEntity covidAreaDescEntity = mapper.asEntity(covidCasesDesc);
+		CovidAreaDescMapper mapper = Selma.builder(CovidAreaDescMapper.class).build();
 
-			CovidCasesDescEntity savedEntity = covidCasesDescRepository.save(covidAreaDescEntity);
+		CovidCasesDescEntity covidAreaDescEntity = mapper.asEntity(covidCasesDesc);
 
-			covidCasesdescSaved = mapper.asResource(savedEntity);
-			log.info("postCovid() ends, covidCasesDescSaved={}", covidCasesDesc);
+		CovidCasesDescEntity savedEntity = covidCasesDescRepository.save(covidAreaDescEntity);
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			log.error(" findAll() exception " + e.getMessage());
-			throw new Exception(e.getMessage());
-		}
+		covidCasesdescSaved = mapper.asResource(savedEntity);
+		log.info("postCovid() ends, covidCasesDescSaved={}", covidCasesDesc);
 
 		return covidCasesdescSaved;
 	}
 
 	@Override
-	public int deleteCovidSoap( String desc) throws Exception {
+	public int deleteCovidSoap(String desc) throws com.app.error.ControllerException {
 		log.info("deleteCovidSoap() started desc={}", desc);
 
 		// complete the implementation below
 		return covidCasesDescRepository.deleteDescWithCondition(desc);
 
+	}
+
+	@Override
+	public List<CovidCasesArea> addCovid() {
+
+		return null;
 	}
 }
